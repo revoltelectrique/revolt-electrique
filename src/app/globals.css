@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --revolt-red: #64191E;
+  --revolt-dark: #383337;
+  --revolt-dark-alt: #373634;
+  --revolt-white: #FFFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-revolt-red text-white px-6 py-3 rounded-lg font-semibold
+           hover:bg-revolt-red-light transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-revolt-red text-revolt-red px-6 py-3 rounded-lg font-semibold
+           hover:bg-revolt-red hover:text-white transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24 px-4 md:px-8;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+}
