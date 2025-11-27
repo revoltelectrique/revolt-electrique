@@ -84,7 +84,7 @@ export default function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white hover:text-revolt-red transition-colors duration-200 font-medium py-2"
+                  className="text-revolt-dark hover:text-revolt-red transition-colors duration-200 font-medium py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}

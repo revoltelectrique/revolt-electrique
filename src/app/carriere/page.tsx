@@ -12,7 +12,7 @@ const postes = [
     id: 1,
     title: 'Électricien compagnon',
     type: 'Temps plein',
-    location: 'Région à préciser',
+    location: 'Baie-Comeau',
     description: 'Nous recherchons un électricien compagnon expérimenté pour rejoindre notre équipe.',
     requirements: [
       'Carte de compétence CCQ',
@@ -25,13 +25,26 @@ const postes = [
     id: 2,
     title: 'Apprenti électricien',
     type: 'Temps plein',
-    location: 'Région à préciser',
+    location: 'Baie-Comeau',
     description: 'Opportunité pour un apprenti motivé de développer ses compétences.',
     requirements: [
       'DEP en électricité ou en cours',
       'Motivation et désir d\'apprendre',
       'Permis de conduire valide',
-      'Bonne condition physique',
+    ],
+  },
+  {
+    id: 3,
+    title: 'Commis d\'entrepôt et d\'inventaire',
+    type: 'Temps plein',
+    location: 'Baie-Comeau et Forestville',
+    description: 'Nous recherchons une personne organisée pour gérer notre entrepôt et l\'inventaire de matériel électrique.',
+    requirements: [
+      'Expérience en gestion d\'inventaire (un atout)',
+      'Bonne connaissance en informatique',
+      'Sens de l\'organisation',
+      'Capacité à travailler de façon autonome',
+      'Permis de conduire valide',
     ],
   },
 ]

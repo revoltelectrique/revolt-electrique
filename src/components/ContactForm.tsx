@@ -12,6 +12,8 @@ type FormData = {
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
+const WEB3FORMS_ACCESS_KEY = '2448b9b7-beb1-4f5d-a776-c159436bbc98'
+
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     nom: '',
@@ -34,27 +36,38 @@ export default function ContactForm() {
     e.preventDefault()
     setStatus('submitting')
 
-    // TODO: Implémenter l'envoi du formulaire
-    // Options:
-    // 1. Formspree (gratuit): https://formspree.io
-    // 2. EmailJS (gratuit): https://www.emailjs.com
-    // 3. API Route Next.js avec Nodemailer
-
-    // Simulation d'envoi pour le moment
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Pour le moment, afficher les données dans la console
-      console.log('Formulaire soumis:', formData)
-
-      setStatus('success')
-      setFormData({
-        nom: '',
-        courriel: '',
-        telephone: '',
-        typeService: '',
-        message: '',
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Nouvelle demande de soumission - ${formData.typeService || 'Général'}`,
+          from_name: 'ReVolt Électrique - Site Web',
+          name: formData.nom,
+          email: formData.courriel,
+          telephone: formData.telephone,
+          type_service: formData.typeService,
+          message: formData.message,
+        }),
       })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setStatus('success')
+        setFormData({
+          nom: '',
+          courriel: '',
+          telephone: '',
+          typeService: '',
+          message: '',
+        })
+      } else {
+        setStatus('error')
+      }
     } catch {
       setStatus('error')
     }
