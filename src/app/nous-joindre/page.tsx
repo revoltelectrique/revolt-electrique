@@ -89,7 +89,7 @@ export default function NousJoindre() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-revolt-dark mb-1">Heures d'ouverture</h3>
-                    <p className="text-gray-600">Lundi - Vendredi: 8h - 17h</p>
+                    <p className="text-gray-600">Lundi - Vendredi: 8h - 16h</p>
                     <p className="text-gray-600">Urgences: 24/7</p>
                   </div>
                 </div>
