@@ -18,7 +18,7 @@ const fadeInUp = {
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" }
   }
-}
+} as const
 
 export default function NousJoindrePage() {
   const contactDetails = [
