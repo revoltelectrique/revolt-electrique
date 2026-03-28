@@ -23,7 +23,6 @@ type FormData = {
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
-const WEB3FORMS_ACCESS_KEY = '2448b9b7-beb1-4f5d-a776-c159436bbc98'
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
@@ -48,21 +47,10 @@ export default function ContactForm() {
     setStatus('submitting')
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `Nouvelle demande - ${formData.typeService || 'Général'}`,
-          from_name: 'ReVolt Électrique - Site Web',
-          name: formData.nom,
-          email: formData.courriel,
-          telephone: formData.telephone,
-          type_service: formData.typeService,
-          message: formData.message,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       })
 
       const result = await response.json()
@@ -97,7 +85,8 @@ export default function ContactForm() {
             </div>
             <h3 className="text-3xl font-black text-green-900 mb-4 tracking-tight">Message Envoyé !</h3>
             <p className="text-green-800 text-lg font-medium">
-              Merci de votre confiance. Un expert de ReVolt Électrique vous contactera sous peu.
+              Merci de votre confiance. Un courriel de confirmation vous a été envoyé.
+              <br />Un expert de ReVolt Électrique vous contactera sous peu.
             </p>
           </motion.div>
         ) : (
