@@ -4,6 +4,7 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
+import AfterHoursBanner from '@/components/AfterHoursBanner'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${inter.variable} font-sans antialiased`}>
+        <AfterHoursBanner />
         <Navigation />
         <main className="min-h-screen">
           {children}

@@ -10,6 +10,7 @@ import {
   Building2
 } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
+import EmergencyButton from '@/components/EmergencyButton'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -104,6 +105,16 @@ export default function NousJoindrePage() {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Bouton Service d'urgence */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+              >
+                <EmergencyButton />
+              </motion.div>
 
               {/* Business Places - Refonte complète pour la lisibilité */}
               <motion.div 
