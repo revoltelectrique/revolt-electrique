@@ -78,7 +78,9 @@ export async function POST(request: NextRequest) {
     const safeNom = escapeXml(nom)
     const safeAdresse = escapeXml(adresse)
 
-    const twiml = `<Response><Say language="fr-CA">Alerte urgence Revolt Electrique. Un appel d urgence a ete recu de ${safeNom}. Adresse des travaux ${safeAdresse}. Verifiez vos S M S pour les details complets.</Say><Pause length="3"/><Say language="fr-CA">Repetition. Un appel d urgence electrique est entre. Verifiez vos S M S.</Say></Response>`
+    const message = `Alerte urgence Revolt Electrique. Un appel d urgence a ete recu de ${safeNom}. Adresse des travaux ${safeAdresse}. Telephone du client ${escapeXml(telephone)}. Verifiez vos S M S pour les details complets.`
+
+    const twiml = `<Response><Say language="fr-CA">${message}</Say><Pause length="3"/><Say language="fr-CA">Repetition du message.</Say><Pause length="1"/><Say language="fr-CA">${message}</Say></Response>`
 
     // Envoyer SMS + appel à chaque numéro
     await Promise.all(
