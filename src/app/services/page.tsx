@@ -2,23 +2,29 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Zap, 
-  Factory, 
-  Building2, 
-  CheckCircle2, 
-  ArrowRight, 
-  ShieldCheck, 
+import {
+  Zap,
+  Factory,
+  Building2,
+  Cable,
+  CheckCircle2,
+  ArrowRight,
+  ShieldCheck,
   Hammer,
   Lightbulb
 } from 'lucide-react'
 import Link from 'next/link'
+import {
+  IndustrialIllustration,
+  CommercialIllustration,
+  PowerLineIllustration,
+  EmergencyIllustration,
+} from '@/components/ServiceIllustrations'
 
-// Correction de la variante d'animation
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" }
   }
@@ -39,7 +45,8 @@ export default function ServicesPage() {
         "Éclairage industriel haute performance"
       ],
       icon: <Factory className="w-12 h-12" />,
-      color: "bg-blue-50 text-blue-600"
+      color: "bg-blue-50 text-blue-600",
+      illustration: <IndustrialIllustration />,
     },
     {
       id: "commercial",
@@ -54,13 +61,31 @@ export default function ServicesPage() {
         "Maintenance de bâtiments commerciaux"
       ],
       icon: <Building2 className="w-12 h-12" />,
-      color: "bg-amber-50 text-amber-600"
+      color: "bg-amber-50 text-amber-600",
+      illustration: <CommercialIllustration />,
+    },
+    {
+      id: "lignes",
+      title: "Ligne Électrique Basse et Moyenne Tension",
+      subtitle: "Distribution & Raccordement",
+      description: "Installation, entretien et réparation de lignes électriques basse et moyenne tension pour les secteurs résidentiel, commercial et industriel. De la distribution souterraine aux raccordements aériens, notre équipe maîtrise tous les aspects de la ligne électrique.",
+      features: [
+        "Installation de lignes aériennes et souterraines",
+        "Raccordement au réseau de distribution",
+        "Mise à niveau de panneaux de distribution",
+        "Câblage basse et moyenne tension",
+        "Entretien préventif de lignes électriques",
+        "Installation de poteaux et structures"
+      ],
+      icon: <Cable className="w-12 h-12" />,
+      color: "bg-emerald-50 text-emerald-600",
+      illustration: <PowerLineIllustration />,
     },
     {
       id: "urgence",
       title: "Service d'Urgence 24/7",
       subtitle: "Réponse immédiate & Sécurité",
-      description: "Une panne électrique peut paralyser votre entreprise ou mettre en danger votre sécurité. Notre équipe d'urgence est prête à intervenir à tout moment.",
+      description: "Une panne électrique peut paralyser votre entreprise ou mettre en danger votre sécurité. Notre équipe d'urgence est prête à intervenir à tout moment, de La Malbaie à Sept-Îles et Fermont.",
       features: [
         "Dépannage rapide 24h/24",
         "Sécurisation après sinistre",
@@ -69,7 +94,8 @@ export default function ServicesPage() {
         "Diagnostic de pannes complexes"
       ],
       icon: <Zap className="w-12 h-12" />,
-      color: "bg-red-50 text-red-600"
+      color: "bg-red-50 text-red-600",
+      illustration: <EmergencyIllustration />,
     }
   ]
 
@@ -78,7 +104,7 @@ export default function ServicesPage() {
       {/* Header Services */}
       <section className="pt-32 pb-20 bg-slate-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
@@ -88,7 +114,7 @@ export default function ServicesPage() {
               Nos <span className="text-[#64191E]">Expertises</span>
             </h1>
             <p className="text-xl text-gray-500 leading-relaxed">
-              Une gamme complète de solutions électriques pour propulser vos projets résidentiels, commerciaux et industriels.
+              Une gamme complète de solutions électriques pour propulser vos projets commerciaux, industriels et de distribution sur toute la Côte-Nord.
             </p>
           </motion.div>
         </div>
@@ -99,7 +125,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="space-y-32">
             {sections.map((section, idx) => (
-              <motion.div 
+              <motion.div
                 key={section.id}
                 id={section.id}
                 initial="hidden"
@@ -121,7 +147,7 @@ export default function ServicesPage() {
                   <p className="text-lg text-gray-500 mb-10 leading-relaxed">
                     {section.description}
                   </p>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {section.features.map((feature, fIdx) => (
                       <div key={fIdx} className="flex items-center gap-3">
@@ -132,7 +158,7 @@ export default function ServicesPage() {
                   </div>
 
                   <div className="mt-12">
-                    <Link 
+                    <Link
                       href="/nous-joindre"
                       className="inline-flex items-center gap-2 text-[#383337] font-black hover:text-[#64191E] transition-colors group"
                     >
@@ -141,13 +167,9 @@ export default function ServicesPage() {
                     </Link>
                   </div>
                 </div>
-                
-                <div className="flex-1 w-full h-[400px] md:h-[500px] bg-gray-100 rounded-[40px] relative overflow-hidden group border border-gray-100">
-                   <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-50 flex items-center justify-center">
-                      <div className="text-gray-300 opacity-50 transform group-hover:scale-110 transition-transform duration-700">
-                         {section.icon}
-                      </div>
-                   </div>
+
+                <div className="flex-1 w-full h-[400px] md:h-[500px] rounded-[40px] relative overflow-hidden group border border-gray-100">
+                  {section.illustration}
                 </div>
               </motion.div>
             ))}
@@ -158,16 +180,16 @@ export default function ServicesPage() {
       {/* Why Choose Us */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black text-[#383337] mb-4 tracking-tight">L'excellence ReVolt</h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">Pourquoi nous sommes le partenaire privilégié des entreprises du Québec.</p>
+          <h2 className="text-3xl md:text-5xl font-black text-[#383337] mb-4 tracking-tight">L&apos;excellence ReVolt</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto">Pourquoi nous sommes le partenaire privilégié des entreprises de la Côte-Nord.</p>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div 
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true }} 
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={fadeInUp}
               className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
             >
@@ -175,10 +197,10 @@ export default function ServicesPage() {
               <h3 className="text-xl font-black text-[#383337] mb-4">Sécurité sans compromis</h3>
               <p className="text-gray-500 leading-relaxed">Nous appliquons les protocoles les plus rigoureux pour protéger vos employés et vos actifs.</p>
             </motion.div>
-            <motion.div 
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true }} 
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={fadeInUp}
               className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
             >
@@ -186,15 +208,15 @@ export default function ServicesPage() {
               <h3 className="text-xl font-black text-[#383337] mb-4">Innovation Technique</h3>
               <p className="text-gray-500 leading-relaxed">Nous utilisons les dernières technologies pour optimiser vos installations et réduire vos coûts.</p>
             </motion.div>
-            <motion.div 
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true }} 
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={fadeInUp}
               className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
             >
               <Hammer className="w-10 h-10 text-[#64191E] mb-6" />
-              <h3 className="text-xl font-black text-[#383337] mb-4">Précision d'exécution</h3>
+              <h3 className="text-xl font-black text-[#383337] mb-4">Précision d&apos;exécution</h3>
               <p className="text-gray-500 leading-relaxed">Chaque connexion, chaque câble est installé avec un souci du détail qui fait notre réputation.</p>
             </motion.div>
           </div>
@@ -205,8 +227,8 @@ export default function ServicesPage() {
       <section className="py-24 bg-white text-center">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black text-[#383337] mb-10 leading-none tracking-tight">Besoin d'un diagnostic expert?</h2>
-            <Link 
+            <h2 className="text-4xl md:text-6xl font-black text-[#383337] mb-10 leading-none tracking-tight">Besoin d&apos;un diagnostic expert?</h2>
+            <Link
               href="/nous-joindre"
               className="inline-flex items-center gap-4 bg-[#64191E] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-[#7a2027] transition-all duration-300 shadow-xl"
             >
