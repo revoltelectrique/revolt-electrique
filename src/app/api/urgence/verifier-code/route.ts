@@ -35,6 +35,15 @@ function verifyToken(token: string, userCode: string): { valid: boolean; phone: 
   }
 }
 
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { token, code, nom, adresse, telephone, description } = await request.json()
@@ -65,15 +74,6 @@ export async function POST(request: NextRequest) {
       `Adresse: ${adresse}\n` +
       `Téléphone: ${telephone}\n` +
       `Description: ${description}`
-
-    function escapeXml(str: string): string {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;')
-    }
 
     const safeNom = escapeXml(nom)
     const safeAdresse = escapeXml(adresse)
