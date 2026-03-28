@@ -78,7 +78,10 @@ export async function POST(request: NextRequest) {
     const safeNom = escapeXml(nom)
     const safeAdresse = escapeXml(adresse)
 
-    const message = `Alerte urgence Revolt Electrique. Un appel d urgence a ete recu de ${safeNom}. Adresse des travaux ${safeAdresse}. Telephone du client ${escapeXml(telephone)}. Verifiez vos S M S pour les details complets.`
+    // Espacer chaque chiffre du téléphone pour que Twilio les dise un par un
+    const phoneSpaced = telephone.replace(/\D/g, '').split('').join(' ')
+
+    const message = `Alerte urgence Revolt Electrique. Un appel d urgence a ete recu de ${safeNom}. Adresse des travaux ${safeAdresse}. Telephone du client ${phoneSpaced}. Verifiez vos S M S pour les details complets.`
 
     const twiml = `<Response><Say language="fr-CA">${message}</Say><Pause length="3"/><Say language="fr-CA">Repetition du message.</Say><Pause length="1"/><Say language="fr-CA">${message}</Say></Response>`
 
