@@ -114,10 +114,10 @@ export default function Home() {
         <div className="container-custom mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-revolt-red font-black tracking-[0.2em] uppercase text-sm mb-6 block">Services & Solutions</h2>
-              <h3 className="text-4xl md:text-6xl font-black text-revolt-dark tracking-tighter leading-none">
+              <span className="text-revolt-red font-black tracking-[0.2em] uppercase text-sm mb-6 block">Services & Solutions</span>
+              <h2 className="text-4xl md:text-6xl font-black text-revolt-dark tracking-tighter leading-none">
                 Une puissance maîtrisée <br />pour chaque secteur.
-              </h3>
+              </h2>
             </div>
             <Link href="/services" className="group flex items-center gap-2 text-revolt-dark font-black text-lg hover:text-revolt-red transition-colors underline decoration-2 underline-offset-8 decoration-revolt-red/30 hover:decoration-revolt-red">
               Tous nos services
@@ -137,7 +137,7 @@ export default function Home() {
                 <div className="w-20 h-20 bg-white rounded-3xl shadow-sm border border-gray-100 flex items-center justify-center mb-10 text-revolt-red group-hover:bg-revolt-red group-hover:text-white transition-all duration-500 transform group-hover:scale-110">
                   {service.icon}
                 </div>
-                <h4 className="text-2xl font-black text-revolt-dark mb-5 tracking-tight group-hover:text-revolt-red transition-colors">{service.title}</h4>
+                <h3 className="text-2xl font-black text-revolt-dark mb-5 tracking-tight group-hover:text-revolt-red transition-colors">{service.title}</h3>
                 <p className="text-gray-500 text-lg leading-relaxed mb-10">
                   {service.description}
                 </p>
