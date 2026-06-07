@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
+import nodemailer from 'nodemailer'
 
-const WEB3FORMS_ACCESS_KEY = '2448b9b7-beb1-4f5d-a776-c159436bbc98'
+export const runtime = 'nodejs'
+
+// Transport SMTP Zoho — identifiants dans les variables d'environnement
+const transporter = nodemailer.createTransport({
+  host: process.env.ZOHO_HOST || 'smtppro.zoho.com',
+  port: Number(process.env.ZOHO_PORT) || 465,
+  secure: true, // SSL sur le port 465
+  auth: {
+    user: process.env.ZOHO_USER,
+    pass: process.env.ZOHO_PASS,
+  },
+})
+
+// Expéditeur (doit correspondre au compte Zoho authentifié)
+const FROM = `ReVolt Électrique <${process.env.ZOHO_USER}>`
+// Destinataire des demandes de location de RDT
+const TO = 'larry.tremblay@revoltelectrique.com'
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,63 +42,52 @@ export async function POST(request: NextRequest) {
     const periodeLabel = periode || 'À déterminer'
     const entrepriseLabel = entreprise || 'Non précisée'
 
-    // 1. Notification interne à ReVolt
-    const notifResponse = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: `Location de RDT — Demande de rencontre (${besoinLabel})`,
-        from_name: 'ReVolt Électrique - Location de RDT',
-        cc: ['larry.tremblay@revoltelectrique.com'],
-        name: nom,
-        email: courriel,
-        entreprise: entrepriseLabel,
-        telephone,
-        type_besoin: besoinLabel,
-        periode_rencontre: periodeLabel,
-        message,
-      }),
+    // 1. Notification interne
+    await transporter.sendMail({
+      from: FROM,
+      to: TO,
+      replyTo: courriel,
+      subject: `Location de RDT — Demande de rencontre (${besoinLabel})`,
+      html: `
+        <h2>Nouvelle demande de rencontre — Location de RDT</h2>
+        <table cellpadding="6" style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
+          <tr><td><strong>Nom</strong></td><td>${nom}</td></tr>
+          <tr><td><strong>Entreprise</strong></td><td>${entrepriseLabel}</td></tr>
+          <tr><td><strong>Courriel</strong></td><td>${courriel}</td></tr>
+          <tr><td><strong>Téléphone</strong></td><td>${telephone}</td></tr>
+          <tr><td><strong>Type de besoin</strong></td><td>${besoinLabel}</td></tr>
+          <tr><td><strong>Période souhaitée</strong></td><td>${periodeLabel}</td></tr>
+          <tr><td valign="top"><strong>Message</strong></td><td>${message}</td></tr>
+        </table>
+      `,
     })
 
-    const notifResult = await notifResponse.json()
-
-    if (!notifResult.success) {
-      throw new Error('Erreur lors de l\'envoi du formulaire.')
-    }
-
     // 2. Confirmation au client
-    await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: 'Confirmation de votre demande de rencontre — Location de RDT — ReVolt Électrique',
-        from_name: 'ReVolt Électrique',
-        replyto: 'info@revoltelectrique.com',
-        to: courriel,
-        name: nom,
-        message: [
-          `Bonjour ${nom},`,
-          '',
-          'Nous avons bien reçu votre demande de rencontre concernant la location de responsables des travaux (RDT). Merci de votre intérêt.',
-          '',
-          'Voici un résumé de votre demande :',
-          `• Entreprise : ${entrepriseLabel}`,
-          `• Type de besoin : ${besoinLabel}`,
-          `• Période de rencontre souhaitée : ${periodeLabel}`,
-          `• Téléphone : ${telephone}`,
-          `• Message : ${message}`,
-          '',
-          'Un expert RDT de notre équipe communiquera avec vous dans les plus brefs délais afin de planifier la rencontre et valider vos besoins de conformité au Code de sécurité des travaux d\'Hydro-Québec.',
-          '',
-          'Cordialement,',
-          'L\'équipe ReVolt Électrique',
-          '418-587-5403',
-          'info@revoltelectrique.com',
-          'revoltelectrique.com',
-        ].join('\n'),
-      }),
+    await transporter.sendMail({
+      from: FROM,
+      to: courriel,
+      replyTo: 'info@revoltelectrique.com',
+      subject: 'Confirmation de votre demande de rencontre — Location de RDT — ReVolt Électrique',
+      html: `
+        <div style="font-family:sans-serif;font-size:14px;line-height:1.6;color:#383337">
+          <p>Bonjour ${nom},</p>
+          <p>Nous avons bien reçu votre demande de rencontre concernant la location de responsables des travaux (RDT). Merci de votre intérêt.</p>
+          <p><strong>Résumé de votre demande :</strong></p>
+          <ul>
+            <li>Entreprise : ${entrepriseLabel}</li>
+            <li>Type de besoin : ${besoinLabel}</li>
+            <li>Période de rencontre souhaitée : ${periodeLabel}</li>
+            <li>Téléphone : ${telephone}</li>
+            <li>Message : ${message}</li>
+          </ul>
+          <p>Un expert RDT de notre équipe communiquera avec vous dans les plus brefs délais afin de planifier la rencontre et valider vos besoins de conformité au Code de sécurité des travaux d'Hydro-Québec.</p>
+          <p>Cordialement,<br>
+          L'équipe ReVolt Électrique<br>
+          418-587-5403<br>
+          info@revoltelectrique.com<br>
+          revoltelectrique.com</p>
+        </div>
+      `,
     })
 
     return NextResponse.json({ success: true })

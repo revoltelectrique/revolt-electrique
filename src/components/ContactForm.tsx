@@ -46,31 +46,11 @@ export default function ContactForm() {
     e.preventDefault()
     setStatus('submitting')
 
-    const serviceLabels: Record<string, string> = {
-      industriel: 'Industriel / Minier',
-      commercial: 'Commercial',
-      residentiel: 'Résidentiel',
-      urgence: 'Urgence 24/7',
-    }
-    const serviceLabel =
-      serviceLabels[formData.typeService] || formData.typeService || 'Général'
-
     try {
-      // Envoi côté navigateur (requis par le forfait gratuit de Web3Forms)
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: '2448b9b7-beb1-4f5d-a776-c159436bbc98',
-          subject: `Nouvelle demande - ${serviceLabel}`,
-          from_name: 'ReVolt Électrique - Site Web',
-          replyto: formData.courriel,
-          name: formData.nom,
-          email: formData.courriel,
-          telephone: formData.telephone,
-          type_service: serviceLabel,
-          message: formData.message,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       })
 
       const result = await response.json()

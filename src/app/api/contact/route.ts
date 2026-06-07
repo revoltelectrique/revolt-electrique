@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
+import nodemailer from 'nodemailer'
 
-const WEB3FORMS_ACCESS_KEY = '2448b9b7-beb1-4f5d-a776-c159436bbc98'
+export const runtime = 'nodejs'
+
+// Transport SMTP Zoho — identifiants dans les variables d'environnement
+const transporter = nodemailer.createTransport({
+  host: process.env.ZOHO_HOST || 'smtppro.zoho.com',
+  port: Number(process.env.ZOHO_PORT) || 465,
+  secure: true, // SSL sur le port 465
+  auth: {
+    user: process.env.ZOHO_USER,
+    pass: process.env.ZOHO_PASS,
+  },
+})
+
+// Expéditeur (doit correspondre au compte Zoho authentifié)
+const FROM = `ReVolt Électrique <${process.env.ZOHO_USER}>`
+// Destinataire des demandes du formulaire de contact
+const TO = 'info@revoltelectrique.com'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,60 +39,49 @@ export async function POST(request: NextRequest) {
 
     const serviceLabel = serviceLabels[typeService] || typeService || 'Général'
 
-    // 1. Envoyer la notification à ReVolt (existant)
-    const notifResponse = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: `Nouvelle demande - ${serviceLabel}`,
-        from_name: 'ReVolt Électrique - Site Web',
-        name: nom,
-        email: courriel,
-        telephone,
-        type_service: serviceLabel,
-        message,
-      }),
+    // 1. Notification interne
+    await transporter.sendMail({
+      from: FROM,
+      to: TO,
+      replyTo: courriel,
+      subject: `Nouvelle demande - ${serviceLabel}`,
+      html: `
+        <h2>Nouvelle demande — Site Web</h2>
+        <table cellpadding="6" style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
+          <tr><td><strong>Nom</strong></td><td>${nom}</td></tr>
+          <tr><td><strong>Courriel</strong></td><td>${courriel}</td></tr>
+          <tr><td><strong>Téléphone</strong></td><td>${telephone}</td></tr>
+          <tr><td><strong>Secteur</strong></td><td>${serviceLabel}</td></tr>
+          <tr><td valign="top"><strong>Message</strong></td><td>${message}</td></tr>
+        </table>
+      `,
     })
 
-    const notifResult = await notifResponse.json()
-
-    if (!notifResult.success) {
-      throw new Error('Erreur lors de l\'envoi du formulaire.')
-    }
-
-    // 2. Envoyer la confirmation au client
-    await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: 'Confirmation de votre demande — ReVolt Électrique',
-        from_name: 'ReVolt Électrique',
-        replyto: 'info@revoltelectrique.com',
-        to: courriel,
-        name: nom,
-        message: [
-          `Bonjour ${nom},`,
-          '',
-          'Nous avons bien reçu votre demande de soumission et nous vous en remercions.',
-          '',
-          'Voici un résumé de votre demande :',
-          `• Service demandé : ${serviceLabel}`,
-          `• Téléphone : ${telephone}`,
-          `• Message : ${message}`,
-          '',
-          'Un expert de notre équipe analysera votre demande et vous contactera dans les plus brefs délais.',
-          '',
-          'Si vous avez une urgence électrique, utilisez notre service d\'urgence 24/7 disponible sur notre site web.',
-          '',
-          'Cordialement,',
-          'L\'équipe ReVolt Électrique',
-          '418-587-5403',
-          'info@revoltelectrique.com',
-          'revoltelectrique.com',
-        ].join('\n'),
-      }),
+    // 2. Confirmation au client
+    await transporter.sendMail({
+      from: FROM,
+      to: courriel,
+      replyTo: 'info@revoltelectrique.com',
+      subject: 'Confirmation de votre demande — ReVolt Électrique',
+      html: `
+        <div style="font-family:sans-serif;font-size:14px;line-height:1.6;color:#383337">
+          <p>Bonjour ${nom},</p>
+          <p>Nous avons bien reçu votre demande de soumission et nous vous en remercions.</p>
+          <p><strong>Résumé de votre demande :</strong></p>
+          <ul>
+            <li>Service demandé : ${serviceLabel}</li>
+            <li>Téléphone : ${telephone}</li>
+            <li>Message : ${message}</li>
+          </ul>
+          <p>Un expert de notre équipe analysera votre demande et vous contactera dans les plus brefs délais.</p>
+          <p>Si vous avez une urgence électrique, utilisez notre service d'urgence 24/7 disponible sur notre site web.</p>
+          <p>Cordialement,<br>
+          L'équipe ReVolt Électrique<br>
+          418-587-5403<br>
+          info@revoltelectrique.com<br>
+          revoltelectrique.com</p>
+        </div>
+      `,
     })
 
     return NextResponse.json({ success: true })

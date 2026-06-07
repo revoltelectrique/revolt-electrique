@@ -51,32 +51,11 @@ export default function RdtContactForm() {
     e.preventDefault()
     setStatus('submitting')
 
-    const besoinLabels: Record<string, string> = {
-      poste: 'RDT Poste',
-      centrale: 'RDT Centrale',
-      transport: 'Ligne de transport',
-      autre: 'Autre / à préciser',
-    }
-    const besoinLabel = besoinLabels[formData.typeBesoin] || 'À préciser'
-
     try {
-      // Envoi côté navigateur (requis par le forfait gratuit de Web3Forms)
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/location-rdt', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: '2448b9b7-beb1-4f5d-a776-c159436bbc98',
-          subject: `Location de RDT — Demande de rencontre (${besoinLabel})`,
-          from_name: 'ReVolt Électrique - Location de RDT',
-          replyto: formData.courriel,
-          name: formData.nom,
-          email: formData.courriel,
-          entreprise: formData.entreprise || 'Non précisée',
-          telephone: formData.telephone,
-          type_besoin: besoinLabel,
-          periode_rencontre: formData.periode || 'À déterminer',
-          message: formData.message,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       })
 
       const result = await response.json()
@@ -123,8 +102,8 @@ export default function RdtContactForm() {
               Demande envoyée !
             </h3>
             <p className="text-green-800 text-lg font-medium">
-              Merci de votre confiance. Un expert RDT de ReVolt Électrique
-              <br />vous contactera sous peu pour planifier la rencontre.
+              Merci de votre confiance. Un courriel de confirmation vous a été envoyé.
+              <br />Un expert RDT de ReVolt Électrique vous contactera pour planifier la rencontre.
             </p>
           </motion.div>
         ) : (
