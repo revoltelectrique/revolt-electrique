@@ -46,11 +46,31 @@ export default function ContactForm() {
     e.preventDefault()
     setStatus('submitting')
 
+    const serviceLabels: Record<string, string> = {
+      industriel: 'Industriel / Minier',
+      commercial: 'Commercial',
+      residentiel: 'Résidentiel',
+      urgence: 'Urgence 24/7',
+    }
+    const serviceLabel =
+      serviceLabels[formData.typeService] || formData.typeService || 'Général'
+
     try {
-      const response = await fetch('/api/contact', {
+      // Envoi côté navigateur (requis par le forfait gratuit de Web3Forms)
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: '2448b9b7-beb1-4f5d-a776-c159436bbc98',
+          subject: `Nouvelle demande - ${serviceLabel}`,
+          from_name: 'ReVolt Électrique - Site Web',
+          replyto: formData.courriel,
+          name: formData.nom,
+          email: formData.courriel,
+          telephone: formData.telephone,
+          type_service: serviceLabel,
+          message: formData.message,
+        }),
       })
 
       const result = await response.json()
@@ -85,7 +105,7 @@ export default function ContactForm() {
             </div>
             <h3 className="text-3xl font-black text-green-900 mb-4 tracking-tight">Message Envoyé !</h3>
             <p className="text-green-800 text-lg font-medium">
-              Merci de votre confiance. Un courriel de confirmation vous a été envoyé.
+              Merci de votre confiance.
               <br />Un expert de ReVolt Électrique vous contactera sous peu.
             </p>
           </motion.div>

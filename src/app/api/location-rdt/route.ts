@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
         access_key: WEB3FORMS_ACCESS_KEY,
         subject: `Location de RDT — Demande de rencontre (${besoinLabel})`,
         from_name: 'ReVolt Électrique - Location de RDT',
+        cc: ['larry.tremblay@revoltelectrique.com'],
         name: nom,
         email: courriel,
         entreprise: entrepriseLabel,

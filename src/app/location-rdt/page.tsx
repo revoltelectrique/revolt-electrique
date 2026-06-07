@@ -13,6 +13,7 @@ import {
   Building2,
   Factory,
   UtilityPole,
+  ChevronDown,
 } from 'lucide-react'
 import RdtContactForm from '@/components/RdtContactForm'
 
@@ -55,8 +56,56 @@ export default function LocationRdtPage() {
     { icon: <UtilityPole className="w-7 h-7" />, label: 'Ligne de transport' },
   ]
 
+  const faqs = [
+    {
+      question: "Qu'est-ce qu'un responsable des travaux (RDT) habilité?",
+      answer:
+        "Le responsable des travaux (RDT) est la personne habilitée qui applique les mesures du Code de sécurité des travaux (CDST) d'Hydro-Québec sur le chantier. Il coordonne le travail dans la zone de travail, assure la maîtrise des risques électriques et fait le lien avec les encadrements de sécurité du donneur d'ordre.",
+    },
+    {
+      question: "Pourquoi un entrepreneur a-t-il besoin d'un RDT pour des travaux Hydro-Québec?",
+      answer:
+        "Pour tout entrepreneur dont le client est Hydro-Québec, disposer d'un RDT habilité est une exigence contractuelle incontournable. Mobiliser et maintenir ce personnel certifié à l'interne est un défi : ReVolt prend cette responsabilité en charge avec un réseau de RDT déjà habilités et disponibles.",
+    },
+    {
+      question: "Quels types de RDT ReVolt peut-il fournir?",
+      answer:
+        "Nos RDT sont habilités au CDST 7e édition pour les chantiers en Poste, en Centrale et sur les Lignes de transport. Ils détiennent également l'ensemble des modules d'habilitation du complexe Manicouagan.",
+    },
+    {
+      question: "Vos RDT sont-ils disponibles ailleurs que sur la Côte-Nord?",
+      answer:
+        "Oui. Notre réseau interne de RDT est basé sur la Côte-Nord, ce qui assure réactivité et déploiement rapide dans la région, mais nos responsables des travaux sont disponibles partout au Québec selon vos besoins de chantier.",
+    },
+    {
+      question: "Qu'est-ce qui est inclus dans la location d'un RDT?",
+      answer:
+        "La location comprend un RDT habilité CDST, le support et le soutien technique CDST, l'équipement de protection individuelle complet (incluant arc-flash) et l'immatriculation CCQ. Nous nous adaptons aussi bien aux petits qu'aux grands projets.",
+    },
+    {
+      question: "Comment obtenir un RDT pour mon prochain chantier?",
+      answer:
+        "Remplissez le formulaire de demande de rencontre sur cette page ou communiquez avec nous au 418-587-5403. Un expert RDT validera vos exigences de conformité et la disponibilité de nos responsables des travaux habilités.",
+    },
+  ]
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  }
+
   return (
     <main className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
       {/* 1. Hero */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-slate-50 border-b border-gray-100">
         {/* Dot pattern */}
@@ -239,6 +288,44 @@ export default function LocationRdtPage() {
                 </div>
                 <span className="text-[#383337] font-bold">{secteur.label}</span>
               </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24">
+        <div className="max-w-4xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-14">
+            <span className="text-[#64191E] font-bold tracking-widest uppercase text-sm mb-4 block">
+              Questions fréquentes
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black text-[#383337] tracking-tight">
+              Tout savoir sur la location de RDT
+            </h2>
+          </div>
+
+          <motion.div
+            className="space-y-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={stagger}
+          >
+            {faqs.map((faq, idx) => (
+              <motion.details
+                key={idx}
+                variants={fadeUp}
+                className="group bg-gray-50 border border-gray-100 rounded-3xl px-6 md:px-8 overflow-hidden"
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none py-6 text-lg md:text-xl font-black text-[#383337] marker:hidden [&::-webkit-details-marker]:hidden">
+                  {faq.question}
+                  <ChevronDown className="w-6 h-6 text-[#64191E] shrink-0 transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="text-gray-500 leading-relaxed pb-6 -mt-1">
+                  {faq.answer}
+                </p>
+              </motion.details>
             ))}
           </motion.div>
         </div>
