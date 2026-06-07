@@ -5,56 +5,56 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Image as ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-} as const
+const stagger = {
+  visible: { transition: { staggerChildren: 0.1 } },
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+}
 
 const realisations = [
   {
     id: 1,
-    title: 'Optimisation Industrielle',
+    title: 'Optimisation industrielle',
     category: 'Industriel',
-    description: 'Mise à niveau complète du système de distribution électrique pour une usine de transformation.',
+    description: "Mise a niveau complete du systeme de distribution electrique pour une usine de transformation.",
     size: 'large'
   },
   {
     id: 2,
-    title: 'Complexe Commercial',
+    title: 'Complexe commercial',
     category: 'Commercial',
-    description: 'Installation de systèmes d\'éclairage intelligents et distribution de puissance.',
+    description: "Installation de systemes d'eclairage intelligents et distribution de puissance.",
     size: 'small'
   },
   {
     id: 3,
-    title: 'Infrastructures Minières',
+    title: 'Infrastructures minieres',
     category: 'Minier',
-    description: 'Maintenance préventive haute tension sur site isolé.',
+    description: 'Maintenance preventive haute tension sur site isole.',
     size: 'small'
   },
   {
     id: 4,
-    title: 'Rénovation Institutionnelle',
+    title: 'Renovation institutionnelle',
     category: 'Commercial',
-    description: 'Mise aux normes complète des systèmes électriques d\'un établissement scolaire.',
+    description: "Mise aux normes complete des systemes electriques d'un etablissement scolaire.",
     size: 'small'
   },
   {
     id: 5,
-    title: 'Projet Résidentiel Premium',
-    category: 'Résidentiel',
-    description: 'Domotique avancée et entrée électrique souterraine pour une résidence de luxe.',
+    title: 'Projet residentiel premium',
+    category: 'Residentiel',
+    description: "Domotique avancee et entree electrique souterraine pour une residence de luxe.",
     size: 'large'
   },
   {
     id: 6,
-    title: 'Bornes de Recharge',
+    title: 'Bornes de recharge',
     category: 'Commercial',
-    description: 'Déploiement d\'une flotte de bornes de recharge rapide pour un parc industriel.',
+    description: "Deploiement d'une flotte de bornes de recharge rapide pour un parc industriel.",
     size: 'small'
   },
 ]
@@ -65,44 +65,46 @@ export default function RealisationsPage() {
       {/* Header */}
       <section className="pt-40 pb-20 bg-slate-50 border-b border-gray-100">
         <div className="container-custom mx-auto px-4 md:px-8">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
+            variants={stagger}
             className="max-w-3xl"
           >
-            <span className="text-[#64191E] font-black tracking-[0.2em] uppercase text-sm mb-6 block">Portfolio</span>
-            <h1 className="text-5xl md:text-8xl font-black text-[#383337] mb-8 tracking-tight">
-              Nos <br /><span className="text-[#64191E]">Réalisations.</span>
-            </h1>
-            <p className="text-xl text-gray-500 leading-relaxed font-medium">
-              Découvrez comment nous propulsons les projets de nos clients avec des solutions électriques de précision.
-            </p>
+            <motion.span variants={fadeUp} className="text-[#64191E] font-bold tracking-[0.2em] uppercase text-sm mb-6 block">Portfolio</motion.span>
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-8xl font-black text-[#383337] mb-8 tracking-tight">
+              Nos <br /><span className="text-[#64191E]">realisations.</span>
+            </motion.h1>
+            <motion.p variants={fadeUp} className="text-xl text-gray-500 leading-relaxed font-medium">
+              Decouvrez comment nous propulsons les projets de nos clients avec des solutions electriques de precision.
+            </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* Grid Réalisations */}
+      {/* Grid */}
       <section className="py-24">
         <div className="container-custom mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {realisations.map((projet, idx) => (
-              <motion.div 
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            {realisations.map((projet) => (
+              <motion.div
                 key={projet.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ delay: idx * 0.1 }}
-                className={`group relative bg-white rounded-[40px] overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 ${projet.size === 'large' ? 'lg:col-span-2' : ''}`}
+                variants={fadeUp}
+                className={`group relative bg-white rounded-[32px] overflow-hidden border border-gray-100 hover:shadow-[0_30px_60px_-15px_rgba(100,25,30,0.08)] transition-all duration-500 ${projet.size === 'large' ? 'lg:col-span-2' : ''}`}
               >
                 {/* Image Placeholder */}
-                <div className="aspect-[16/10] bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                <div className="aspect-[16/10] bg-gray-50 flex items-center justify-center relative overflow-hidden">
                    <div className="absolute inset-0 bg-gradient-to-br from-[#64191E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                    <ImageIcon className="w-16 h-16 text-gray-200 group-hover:scale-110 group-hover:text-[#64191E]/20 transition-all duration-700" />
-                   
+
                    <div className="absolute top-6 left-6">
-                      <span className="bg-white/90 backdrop-blur-md text-[#383337] text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm border border-white/20">
+                      <span className="bg-white/90 backdrop-blur-md text-[#383337] text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-sm border border-white/20">
                         {projet.category}
                       </span>
                    </div>
@@ -115,9 +117,9 @@ export default function RealisationsPage() {
                    <p className="text-gray-500 text-lg leading-relaxed mb-8">
                     {projet.description}
                    </p>
-                   <Link 
+                   <Link
                     href="/nous-joindre"
-                    className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-[#383337] hover:text-[#64191E] transition-colors"
+                    className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-[#383337] hover:text-[#64191E] transition-colors"
                    >
                     Demander une expertise similaire
                     <ArrowRight className="w-4 h-4" />
@@ -125,22 +127,22 @@ export default function RealisationsPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* CTA Réalisations */}
+      {/* CTA */}
       <section className="py-24 md:py-32 bg-slate-50">
          <div className="container-custom mx-auto px-4 md:px-8">
-            <div className="bg-[#383337] rounded-[60px] p-12 md:p-24 text-center relative overflow-hidden">
+            <div className="bg-[#383337] rounded-[48px] p-12 md:p-24 text-center relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#64191E]/20 blur-[100px] rounded-full" />
                <div className="relative z-10">
-                  <h2 className="text-4xl md:text-6xl font-black text-white mb-10 tracking-tight">
-                    Votre projet mérite <br />une attention de maître.
+                  <h2 className="text-4xl md:text-6xl font-black text-white mb-10 tracking-tight" style={{ textWrap: 'balance' }}>
+                    Votre projet merite une attention de maitre.
                   </h2>
                   <Link
                     href="/nous-joindre"
-                    className="inline-flex items-center gap-4 bg-[#64191E] text-white px-12 py-6 rounded-3xl font-black text-xl hover:bg-[#7a2027] transition-all duration-300 shadow-2xl shadow-red-900/40 transform hover:-translate-y-2"
+                    className="inline-flex items-center gap-4 bg-[#64191E] text-white px-12 py-6 rounded-3xl font-black text-xl hover:bg-[#4e1318] transition-all duration-300 shadow-revolt-lg transform hover:-translate-y-2 active:translate-y-0 active:scale-[0.98]"
                   >
                     Lancer mon projet
                     <ArrowRight className="w-6 h-6" />

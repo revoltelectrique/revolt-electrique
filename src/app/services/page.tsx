@@ -11,7 +11,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Hammer,
-  Lightbulb
+  Lightbulb,
+  HardHat
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -21,14 +22,14 @@ import {
   EmergencyIllustration,
 } from '@/components/ServiceIllustrations'
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-} as const
+const stagger = {
+  visible: { transition: { staggerChildren: 0.12 } },
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+}
 
 export default function ServicesPage() {
   const sections = [
@@ -36,13 +37,13 @@ export default function ServicesPage() {
       id: "industriel",
       title: "Industriel / Minier",
       subtitle: "Haute puissance & Infrastructure",
-      description: "Nous possédons une expertise unique pour les environnements exigeants. Nos électriciens sont formés pour intervenir sur des infrastructures complexes en respectant les normes de sécurité les plus strictes.",
+      description: "Nous possedons une expertise unique pour les environnements exigeants. Nos electriciens sont formes pour intervenir sur des infrastructures complexes en respectant les normes de securite les plus strictes.",
       features: [
-        "Maintenance préventive de transformateurs",
+        "Maintenance preventive de transformateurs",
         "Installation de moteurs haute tension",
-        "Câblage industriel structuré",
-        "Automatisation et contrôle de procédés",
-        "Éclairage industriel haute performance"
+        "Cablage industriel structure",
+        "Automatisation et controle de procedes",
+        "Eclairage industriel haute performance"
       ],
       icon: <Factory className="w-12 h-12" />,
       color: "bg-blue-50 text-blue-600",
@@ -51,14 +52,14 @@ export default function ServicesPage() {
     {
       id: "commercial",
       title: "Commercial",
-      subtitle: "Solutions d'affaires & Efficacité",
-      description: "Pour vos bureaux, commerces ou complexes immobiliers, nous livrons des installations qui allient esthétique, sécurité et efficacité énergétique.",
+      subtitle: "Solutions d'affaires & Efficacite",
+      description: "Pour vos bureaux, commerces ou complexes immobiliers, nous livrons des installations qui allient esthetique, securite et efficacite energetique.",
       features: [
-        "Systèmes d'éclairage LED intelligents",
-        "Rénovation électrique complète",
+        "Systemes d'eclairage LED intelligents",
+        "Renovation electrique complete",
         "Installation de bornes de recharge",
-        "Distribution électrique de puissance",
-        "Maintenance de bâtiments commerciaux"
+        "Distribution electrique de puissance",
+        "Maintenance de batiments commerciaux"
       ],
       icon: <Building2 className="w-12 h-12" />,
       color: "bg-amber-50 text-amber-600",
@@ -66,15 +67,15 @@ export default function ServicesPage() {
     },
     {
       id: "lignes",
-      title: "Ligne Électrique Basse et Moyenne Tension",
+      title: "Ligne electrique basse et moyenne tension",
       subtitle: "Distribution & Raccordement",
-      description: "Installation, entretien et réparation de lignes électriques basse et moyenne tension pour les secteurs résidentiel, commercial et industriel. De la distribution souterraine aux raccordements aériens, notre équipe maîtrise tous les aspects de la ligne électrique.",
+      description: "Installation, entretien et reparation de lignes electriques basse et moyenne tension pour les secteurs residentiel, commercial et industriel. De la distribution souterraine aux raccordements aeriens, notre equipe maitrise tous les aspects de la ligne electrique.",
       features: [
-        "Installation de lignes aériennes et souterraines",
-        "Raccordement au réseau de distribution",
-        "Mise à niveau de panneaux de distribution",
-        "Câblage basse et moyenne tension",
-        "Entretien préventif de lignes électriques",
+        "Installation de lignes aeriennes et souterraines",
+        "Raccordement au reseau de distribution",
+        "Mise a niveau de panneaux de distribution",
+        "Cablage basse et moyenne tension",
+        "Entretien preventif de lignes electriques",
         "Installation de poteaux et structures"
       ],
       icon: <Cable className="w-12 h-12" />,
@@ -83,13 +84,13 @@ export default function ServicesPage() {
     },
     {
       id: "urgence",
-      title: "Service d'Urgence 24/7",
-      subtitle: "Réponse immédiate & Sécurité",
-      description: "Une panne électrique peut paralyser votre entreprise ou mettre en danger votre sécurité. Notre équipe d'urgence est prête à intervenir à tout moment, de La Malbaie à Sept-Îles et Fermont.",
+      title: "Service d'urgence 24/7",
+      subtitle: "Reponse immediate & Securite",
+      description: "Une panne electrique peut paralyser votre entreprise ou mettre en danger votre securite. Notre equipe d'urgence est prete a intervenir a tout moment, de La Malbaie a Sept-Iles et Fermont.",
       features: [
-        "Dépannage rapide 24h/24",
-        "Sécurisation après sinistre",
-        "Réparation de bris majeurs",
+        "Depannage rapide 24h/24",
+        "Securisation apres sinistre",
+        "Reparation de bris majeurs",
         "Remplacement de panneaux d'urgence",
         "Diagnostic de pannes complexes"
       ],
@@ -101,26 +102,26 @@ export default function ServicesPage() {
 
   return (
     <main className="bg-white min-h-screen">
-      {/* Header Services */}
+      {/* Header */}
       <section className="pt-32 pb-20 bg-slate-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
+            variants={stagger}
             className="max-w-3xl"
           >
-            <h1 className="text-5xl md:text-7xl font-black text-[#383337] mb-6 tracking-tight">
-              Nos <span className="text-[#64191E]">Expertises</span>
-            </h1>
-            <p className="text-xl text-gray-500 leading-relaxed">
-              Une gamme complète de solutions électriques pour propulser vos projets commerciaux, industriels et de distribution sur toute la Côte-Nord.
-            </p>
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl font-black text-[#383337] mb-6 tracking-tight">
+              Nos <span className="text-[#64191E]">expertises</span>
+            </motion.h1>
+            <motion.p variants={fadeUp} className="text-xl text-gray-500 leading-relaxed font-medium">
+              Une gamme complete de solutions electriques pour propulser vos projets commerciaux, industriels et de distribution sur toute la Cote-Nord.
+            </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* Grid des services détaillés */}
+      {/* Services details */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="space-y-32">
@@ -131,33 +132,33 @@ export default function ServicesPage() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
-                variants={fadeInUp}
+                variants={stagger}
                 className={`flex flex-col ${idx % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-16 items-start`}
               >
                 <div className="flex-1">
-                  <div className={`w-20 h-20 ${section.color} rounded-3xl flex items-center justify-center mb-8`}>
+                  <motion.div variants={fadeUp} className={`w-20 h-20 ${section.color} rounded-3xl flex items-center justify-center mb-8`}>
                     {section.icon}
-                  </div>
-                  <span className="text-[#64191E] font-bold tracking-widest uppercase text-sm mb-4 block">
+                  </motion.div>
+                  <motion.span variants={fadeUp} className="text-[#64191E] font-bold tracking-widest uppercase text-sm mb-4 block">
                     {section.subtitle}
-                  </span>
-                  <h2 className="text-4xl md:text-5xl font-black text-[#383337] mb-6 tracking-tight">
+                  </motion.span>
+                  <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#383337] mb-6 tracking-tight">
                     {section.title}
-                  </h2>
-                  <p className="text-lg text-gray-500 mb-10 leading-relaxed">
+                  </motion.h2>
+                  <motion.p variants={fadeUp} className="text-lg text-gray-500 mb-10 leading-relaxed">
                     {section.description}
-                  </p>
+                  </motion.p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <motion.div variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {section.features.map((feature, fIdx) => (
                       <div key={fIdx} className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-[#64191E] shrink-0" />
                         <span className="text-gray-700 font-medium">{feature}</span>
                       </div>
                     ))}
-                  </div>
+                  </motion.div>
 
-                  <div className="mt-12">
+                  <motion.div variants={fadeUp} className="mt-12">
                     <Link
                       href="/nous-joindre"
                       className="inline-flex items-center gap-2 text-[#383337] font-black hover:text-[#64191E] transition-colors group"
@@ -165,61 +166,89 @@ export default function ServicesPage() {
                       Demander une soumission pour ce service
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
 
-                <div className="flex-1 w-full h-[400px] md:h-[500px] rounded-[40px] relative overflow-hidden group border border-gray-100">
+                <motion.div variants={fadeUp} className="flex-1 w-full h-[400px] md:h-[500px] rounded-[32px] relative overflow-hidden group border border-gray-100">
                   {section.illustration}
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Location de RDT — Highlight banner */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={stagger}
+          >
+            <Link href="/location-rdt" className="group block">
+              <motion.div
+                variants={fadeUp}
+                className="relative overflow-hidden bg-[#383337] text-white rounded-[40px] p-10 md:p-16 flex flex-col md:flex-row md:items-center gap-10"
+              >
+                <div className="absolute top-0 right-0 w-96 h-96 bg-[#64191E]/20 blur-[120px] rounded-full pointer-events-none" />
+                <div className="relative z-10 flex-1">
+                  <span className="inline-flex items-center gap-2 text-[#64191E] bg-white px-4 py-2 rounded-full font-bold tracking-widest uppercase text-xs mb-6">
+                    <ShieldCheck className="w-4 h-4" />
+                    Conformité Hydro-Québec
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-black mb-5 tracking-tight">
+                    Location de RDT habilités
+                  </h2>
+                  <p className="text-gray-300 text-lg leading-relaxed max-w-xl">
+                    Notre réseau interne de responsables des travaux habilités au Code de sécurité des travaux (CDST 7e édition) d&apos;Hydro-Québec, prêts à intervenir sur vos chantiers en poste, centrale et réseau partout sur la Côte-Nord.
+                  </p>
+                  <span className="inline-flex items-center gap-3 mt-8 font-black uppercase tracking-widest text-sm group-hover:text-[#64191E] transition-colors">
+                    Découvrir la location de RDT
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  </span>
+                </div>
+                <div className="relative z-10 hidden md:flex w-32 h-32 bg-[#64191E] rounded-3xl items-center justify-center shrink-0">
+                  <HardHat className="w-16 h-16 text-white" />
+                </div>
+              </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Choose Us — Asymmetric */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#383337] mb-4 tracking-tight">L&apos;excellence ReVolt</h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">Pourquoi nous sommes le partenaire privilégié des entreprises de la Côte-Nord.</p>
+          <p className="text-gray-500 max-w-2xl mx-auto font-medium">Pourquoi nous sommes le partenaire privilegie des entreprises de la Cote-Nord.</p>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
-            >
-              <ShieldCheck className="w-10 h-10 text-[#64191E] mb-6" />
-              <h3 className="text-xl font-black text-[#383337] mb-4">Sécurité sans compromis</h3>
-              <p className="text-gray-500 leading-relaxed">Nous appliquons les protocoles les plus rigoureux pour protéger vos employés et vos actifs.</p>
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
-            >
-              <Lightbulb className="w-10 h-10 text-[#64191E] mb-6" />
-              <h3 className="text-xl font-black text-[#383337] mb-4">Innovation Technique</h3>
-              <p className="text-gray-500 leading-relaxed">Nous utilisons les dernières technologies pour optimiser vos installations et réduire vos coûts.</p>
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm"
-            >
-              <Hammer className="w-10 h-10 text-[#64191E] mb-6" />
-              <h3 className="text-xl font-black text-[#383337] mb-4">Précision d&apos;exécution</h3>
-              <p className="text-gray-500 leading-relaxed">Chaque connexion, chaque câble est installé avec un souci du détail qui fait notre réputation.</p>
-            </motion.div>
-          </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            {[
+              { icon: <ShieldCheck className="w-10 h-10" />, title: "Securite sans compromis", desc: "Nous appliquons les protocoles les plus rigoureux pour proteger vos employes et vos actifs." },
+              { icon: <Lightbulb className="w-10 h-10" />, title: "Innovation technique", desc: "Nous utilisons les dernieres technologies pour optimiser vos installations et reduire vos couts." },
+              { icon: <Hammer className="w-10 h-10" />, title: "Precision d'execution", desc: "Chaque connexion, chaque cable est installe avec un souci du detail qui fait notre reputation." },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                variants={fadeUp}
+                className="bg-white p-10 rounded-[28px] border border-gray-100 hover:shadow-[0_30px_60px_-15px_rgba(100,25,30,0.08)] transition-all duration-500 group"
+              >
+                <div className="text-[#64191E] mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                <h3 className="text-xl font-black text-[#383337] mb-4">{item.title}</h3>
+                <p className="text-gray-500 leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -230,9 +259,9 @@ export default function ServicesPage() {
             <h2 className="text-4xl md:text-6xl font-black text-[#383337] mb-10 leading-none tracking-tight">Besoin d&apos;un diagnostic expert?</h2>
             <Link
               href="/nous-joindre"
-              className="inline-flex items-center gap-4 bg-[#64191E] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-[#7a2027] transition-all duration-300 shadow-xl"
+              className="inline-flex items-center gap-4 bg-[#64191E] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-[#4e1318] transition-all duration-300 shadow-revolt-lg transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.98]"
             >
-              Parler à un électricien
+              Parler a un electricien
               <Zap className="w-6 h-6 fill-white" />
             </Link>
           </div>

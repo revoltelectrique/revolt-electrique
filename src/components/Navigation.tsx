@@ -6,10 +6,11 @@ import Image from 'next/image'
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
-  { href: '/a-propos', label: 'À propos' },
+  { href: '/a-propos', label: 'A propos' },
   { href: '/services', label: 'Services' },
-  { href: '/realisations', label: 'Réalisations' },
-  { href: '/carriere', label: 'Carrière' },
+  { href: '/location-rdt', label: 'Location de RDT' },
+  { href: '/realisations', label: 'Realisations' },
+  { href: '/carriere', label: 'Carriere' },
   { href: '/faq', label: 'FAQ' },
   { href: '/nous-joindre', label: 'Nous joindre' },
 ]
@@ -18,14 +19,14 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white sticky top-0 z-50 shadow-lg">
+    <header className="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-100/80">
       <nav className="container-custom mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
               src="/logo.png"
-              alt="ReVolt Électrique Inc."
+              alt="ReVolt Electrique Inc."
               width={240}
               height={80}
               className="h-16 w-auto"
@@ -39,7 +40,7 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-revolt-dark hover:text-revolt-red transition-colors duration-200 font-medium"
+                className="text-revolt-dark/80 hover:text-revolt-red transition-colors duration-200 font-semibold text-[15px]"
               >
                 {link.label}
               </Link>
@@ -48,7 +49,7 @@ export default function Navigation() {
               href="https://portail.revoltelectrique.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-revolt-red text-white px-4 py-2 rounded-lg hover:bg-revolt-red-light transition-colors duration-200 font-medium flex items-center gap-2"
+              className="bg-revolt-dark text-white px-5 py-2.5 rounded-xl hover:bg-revolt-red transition-all duration-300 font-bold text-sm flex items-center gap-2 active:scale-[0.98]"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -90,13 +91,13 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4">
-            <div className="flex flex-col space-y-4">
+          <div className="md:hidden pb-6 border-t border-gray-100 mt-2 pt-4">
+            <div className="flex flex-col space-y-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-revolt-dark hover:text-revolt-red transition-colors duration-200 font-medium py-2"
+                  className="text-revolt-dark hover:text-revolt-red hover:bg-gray-50 transition-all duration-200 font-semibold py-3 px-4 rounded-xl"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
@@ -106,7 +107,7 @@ export default function Navigation() {
                 href="https://portail.revoltelectrique.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-revolt-red text-white px-4 py-2 rounded-lg hover:bg-revolt-red-light transition-colors duration-200 font-medium flex items-center gap-2 w-fit"
+                className="bg-revolt-dark text-white px-5 py-3 rounded-xl hover:bg-revolt-red transition-all duration-300 font-bold flex items-center gap-2 w-fit mt-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

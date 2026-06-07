@@ -14,20 +14,37 @@ html {
 }
 
 body {
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Noise/grain overlay for texture */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-revolt-red text-white px-6 py-3 rounded-lg font-semibold
-           hover:bg-revolt-red-light transition-colors duration-200
-           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2;
+    @apply bg-revolt-red text-white px-6 py-3 rounded-xl font-semibold
+           hover:bg-revolt-red-light transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2
+           active:scale-[0.98] active:translate-y-[1px];
   }
 
   .btn-secondary {
-    @apply bg-transparent border-2 border-revolt-red text-revolt-red px-6 py-3 rounded-lg font-semibold
-           hover:bg-revolt-red hover:text-white transition-colors duration-200
-           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2;
+    @apply bg-transparent border-2 border-revolt-red text-revolt-red px-6 py-3 rounded-xl font-semibold
+           hover:bg-revolt-red hover:text-white transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-revolt-red focus:ring-offset-2
+           active:scale-[0.98] active:translate-y-[1px];
   }
 
   .section-padding {
@@ -36,5 +53,18 @@ body {
 
   .container-custom {
     @apply max-w-7xl mx-auto;
+  }
+
+  /* Tinted shadow utilities */
+  .shadow-revolt {
+    box-shadow: 0 20px 60px -15px rgba(100, 25, 30, 0.15);
+  }
+
+  .shadow-revolt-lg {
+    box-shadow: 0 40px 80px -20px rgba(100, 25, 30, 0.2);
+  }
+
+  .shadow-dark {
+    box-shadow: 0 20px 60px -15px rgba(56, 51, 55, 0.15);
   }
 }
